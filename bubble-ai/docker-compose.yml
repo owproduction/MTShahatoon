@@ -1,0 +1,17 @@
+version: '3.8'
+
+services:
+  backend:
+    build: ./backend
+    ports:
+      - "8000:8000"
+    environment:
+      - MWS_BASE_URL=https://api.gpt.mws.ru/v1
+      - MWS_API_KEY=sk-ewgiaPC3A6pPDYHwR8siVA
+    volumes:
+      - ./backend:/app  # Горячая перезагрузка при разработке
+    command: uvicorn main:app --host 0.0.0.0 --port 8000 --reload
+    restart: unless-stopped
+
+  # Опционально: Nginx для раздачи собранного фронтенда в продакшене
+  # Для хакатона достаточно запускать фронт через npm run dev
